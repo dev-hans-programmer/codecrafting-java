@@ -1,0 +1,16 @@
+Navigate to the src directory and compile the Java code using the following command:
+javac -d ../out com/example/*.java
+
+Create a file named Manifest.txt in the out directory with the following content:
+Main-Class: com.example.Main
+
+Navigate to the out directory and create the executable JAR using the following command:
+jar cfm CalculatorApp.jar Manifest.txt com/example/*.class
+
+Test the jar file
+java -jar CalculatorApp.jar
+
+c indicates that you're creating a JAR.
+f CalculatorApp.jar specifies that the output JAR file should be named CalculatorApp.jar.
+m Manifest.txt indicates that the Manifest.txt file should be used as the manifest for the JAR.
+com/example/*.class specifies the compiled class files that should be included in the JAR.
