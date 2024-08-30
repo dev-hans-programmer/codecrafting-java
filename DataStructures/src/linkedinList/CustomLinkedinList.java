@@ -3,12 +3,12 @@ package linkedinList;
 import java.util.NoSuchElementException;;
 
 class Node {
-    int data;
-    Node ptr;
+    int value;
+    Node next;
 
-    public Node(int data, Node ptr) {
-        this.data = data;
-        this.ptr = ptr;
+    public Node(int value, Node next) {
+        this.value = value;
+        this.next = next;
     }
 }
 
@@ -24,13 +24,13 @@ public class CustomLinkedinList {
         return start == null;
     }
 
-    public void addFirst(int data) {
-        var node = new Node(data, null);
+    public void addFirst(int value) {
+        var node = new Node(value, null);
 
         if (isEmpty())
             start = node;
         else {
-            node.ptr = start;
+            node.next = start;
             start = node;
         }
 
@@ -38,33 +38,33 @@ public class CustomLinkedinList {
 
     }
 
-    public void addLast(int data) {
-        var node = new Node(data, null);
+    public void addLast(int value) {
+        var node = new Node(value, null);
 
         if (isEmpty())
-            addFirst(data);
+            addFirst(value);
         else {
             var temp = start;
 
-            while (temp.ptr != null)
-                temp = temp.ptr;
+            while (temp.next != null)
+                temp = temp.next;
 
-            temp.ptr = node;
+            temp.next = node;
 
         }
         count++;
     }
 
-    public void addAfter(Node ref, int data) {
-        var node = new Node(data, null);
+    public void addAfter(Node ref, int value) {
+        var node = new Node(value, null);
 
         if (isEmpty())
-            addFirst(data);
-        else if (start.ptr == null) {
-            addLast(data);
+            addFirst(value);
+        else if (start.next == null) {
+            addLast(value);
         } else {
-            node.ptr = ref.ptr;
-            ref.ptr = node;
+            node.next = ref.next;
+            ref.next = node;
         }
         count++;
 
@@ -73,8 +73,8 @@ public class CustomLinkedinList {
     public void traverse() {
         Node current = start;
         while (current != null) {
-            System.out.print(current.data);
-            current = current.ptr;
+            System.out.print(current.value);
+            current = current.next;
             if (current != null) {
                 System.out.print(" -> ");
             }
@@ -82,13 +82,13 @@ public class CustomLinkedinList {
         System.out.println();
     }
 
-    public int indexOf(int data) {
+    public int indexOf(int value) {
         int index = 0;
         var current = start;
         while (current != null) {
-            if (current.data == data)
+            if (current.value == value)
                 return index;
-            current = current.ptr;
+            current = current.next;
             index++;
         }
         return -1;
@@ -99,16 +99,16 @@ public class CustomLinkedinList {
         return indexOf(item) != -1;
     }
 
-    public Node find(int data) {
+    public Node find(int value) {
         if (isEmpty())
             return null;
 
         var temp = start;
 
         while (temp != null) {
-            if (temp.data == data)
+            if (temp.value == value)
                 return temp;
-            temp = temp.ptr;
+            temp = temp.next;
         }
         return null;
 
@@ -118,8 +118,8 @@ public class CustomLinkedinList {
         var current = start;
         if (isEmpty())
             throw new NoSuchElementException();
-        current = start.ptr;
-        start.ptr = null;
+        current = start.next;
+        start.next = null;
         start = current;
         count--;
     }
@@ -127,14 +127,14 @@ public class CustomLinkedinList {
     public void deleteLast() {
         if (isEmpty())
             throw new NoSuchElementException();
-        if (start.ptr == null) {
+        if (start.next == null) {
             deleteFirst();
         } else {
             var current = start;
-            while (current.ptr.ptr != null) {
-                current = current.ptr;
+            while (current.next.next != null) {
+                current = current.next;
             }
-            current.ptr = null;
+            current.next = null;
         }
         count--;
     }
@@ -149,8 +149,8 @@ public class CustomLinkedinList {
         var current = start;
 
         while (current != null) {
-            arr[index++] = current.data;
-            current = current.ptr;
+            arr[index++] = current.value;
+            current = current.next;
         }
         return arr;
 
@@ -161,11 +161,65 @@ public class CustomLinkedinList {
         var current = start;
 
         while (current != null) {
-            var next = current.ptr;
-            current.ptr = previous;
+            var next = current.next;
+            current.next = previous;
             previous = current;
             current = next;
         }
         start = previous;
     }
+
+    public Node getMiddleNode() {
+        Node slow, fast;
+        slow = fast = start;
+
+        if (start == null || start.next == null)
+            return null;
+
+        // two pointer technique
+        while (fast != null && fast.next != null) {
+            slow = slow.next;
+            fast = fast.next.next;
+        }
+        return slow;
+
+    }
+
+    public void deleteFromMiddleNode() {
+        Node slow, fast, prev;
+        slow = fast = start;
+        prev = null;
+        // two pointer technique
+        while (fast != null && fast.next != null) {
+            prev = slow;
+            slow = slow.next;
+            fast = fast.next.next;
+        }
+
+        prev.next = slow.next;
+
+    }
+
+    public int getKthNodeFromEnd(int k) {
+        Node first, second;
+
+        first = second = start;
+
+        for (int i = 0; i < k; i++) {
+            if (first == null)
+                return 0;
+
+            first = first.next;
+        }
+
+        // Move both pointers until first reaches the end
+        while (first != null) {
+            first = first.next;
+            second = second.next;
+        }
+
+        return second.value;
+
+    }
+
 }

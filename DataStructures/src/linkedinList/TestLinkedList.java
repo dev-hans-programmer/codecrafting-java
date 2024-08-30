@@ -1,7 +1,5 @@
 package linkedinList;
 
-import java.util.Arrays;
-
 public class TestLinkedList {
     public static void main(String[] args) {
         var list = new CustomLinkedinList();
@@ -18,6 +16,9 @@ public class TestLinkedList {
 
         list.reverse();
         list.traverse();
+
+        System.out.println(list.getMiddleNode().value);
+        System.out.println(list.getKthNodeFromEnd(4));
 
     }
 }
