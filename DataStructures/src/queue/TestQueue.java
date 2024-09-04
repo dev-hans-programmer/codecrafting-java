@@ -9,6 +9,7 @@ public class TestQueue {
         // queue.enqueue(30);
         // queue.dequeue();
         // queue.enqueue(40);
+
         // queue.enqueue(50);
         // System.out.println(queue);
         queueStack.enqueue(1);
